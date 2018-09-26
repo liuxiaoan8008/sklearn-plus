@@ -127,3 +127,4 @@ class ModelMixin(object):
         merged_summary = self.sess.run(self.merged_summaries, feed_dict=feed_dict)
         current_step = tf.train.global_step(self.sess, self.global_step)
         self.summary_writer.add_summary(merged_summary, current_step)
+

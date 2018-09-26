@@ -104,7 +104,7 @@ class TextClassifier(BaseEstimator, ClassifierMixin, ModelMixin):
     def predict(self, X):
         feed_dict = {
             self.model.input_x: X,
-            self.model.dropout_keep_prob: 0.5
+            self.model.dropout_keep_prob: 1
         }
         prediction_result = self.sess.run(
             self.model.predictions,
@@ -114,9 +114,9 @@ class TextClassifier(BaseEstimator, ClassifierMixin, ModelMixin):
     def predict_proba(self, X):
         feed_dict = {
             self.model.input_x: X,
-            self.model.dropout_keep_prob: 0.5
+            self.model.dropout_keep_prob: 1
         }
         logits = self.sess.run(
             self.model.logits,
             feed_dict)
-        return logits.tolist()
+        return tf.nn.softmax(logits).tolist()

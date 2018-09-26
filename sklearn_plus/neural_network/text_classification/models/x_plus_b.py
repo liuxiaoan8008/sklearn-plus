@@ -46,7 +46,9 @@ class XPlusB(object):
         # define model graph here.
         self.input_x = tf.placeholder(shape=[1], dtype=tf.float32, name="input_x")
         self.input_y = tf.placeholder(shape=[1], dtype=tf.float32, name="input_y")
+
         self.b = tf.get_variable("weights", initializer=tf.random_normal(shape=[1]))
+
         self.scores = tf.add(self.input_x, self.b, name="scores")
         self.logits = tf.nn.sigmoid(self.scores, name="logits")
         bool_result = tf.less(self.logits, 0.5, name=None)
