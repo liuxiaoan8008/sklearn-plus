@@ -33,7 +33,7 @@ class BiLSTMCrf(object):
             self.logits = tf.reshape(self.logits, [-1, max_sequence_length, label_vocab_size])
 
         with tf.name_scope("crf_layer"):
-            self.sequence_lengths = tf.count_nonzero(self.input_y, axis=1)
+            self.sequence_lengths = tf.add(tf.count_nonzero(self.input_x, axis=1), 2)
             log_likelihood, self.transition_param = tf.contrib.crf.crf_log_likelihood(
                 self.logits, self.input_y, self.sequence_lengths)
 

@@ -126,7 +126,6 @@ class EntityRecongnizer(BaseEstimator, ModelMixin):
             x_batch, y_batch = zip(*batch)
             train_step(x_batch, y_batch, summaries_dict=summaries_dict)
 
-
     def predict(self, X):
         feed_dict = {
             self.model.input_x: X,
@@ -134,9 +133,8 @@ class EntityRecongnizer(BaseEstimator, ModelMixin):
         }
         predictions = []
         if self.model_name == 'bilstm-crf' or 'cnn':
-
             logits, transition_params, sequence_lengths = self.sess.run(
-                [self.model.logits, self.model.transition_param, self.model.sequence_lengths], feed_dict)
+                [self.model.logits, self.model.transition_param,self.model.sequence_lengths], feed_dict)
             for logit, sequence_length in zip(logits, sequence_lengths):
                 logit = logit[:sequence_length]
                 viterbi_sequence, _ = tf.contrib.crf.viterbi_decode(logit, transition_params)
