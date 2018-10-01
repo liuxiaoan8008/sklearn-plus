@@ -30,10 +30,10 @@ class BiLSTMATTCrf(object):
 
         with tf.name_scope("attention"):
             attention_mechanism = tf.contrib.seq2seq.LuongAttention(embedding_size, output)
-            fw_cell = tf.contrib.seq2seq.DynamicAttentionWrapper(
-                fw_cell, attention_mechanism, attention_size=embedding_size)
-            bw_cell = tf.contrib.seq2seq.DynamicAttentionWrapper(
-                bw_cell, attention_mechanism, attention_size=embedding_size)
+            fw_cell = tf.contrib.seq2seq.AttentionWrapper(
+                fw_cell, attention_mechanism)
+            bw_cell = tf.contrib.seq2seq.AttentionWrapper(
+                bw_cell, attention_mechanism)
 
 
         with tf.name_scope("fn_layer"):
