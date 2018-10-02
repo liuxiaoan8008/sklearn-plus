@@ -3,11 +3,17 @@
 
 
 import numpy as np
+import re
 from tensorflow.contrib import learn
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class TextToBagVec(BaseEstimator, TransformerMixin):
+
+    def tokenizer(iterator):
+        for value in iterator:
+            yield list(value)
+
     def __init__(self, max_length=None, min_frequency=1):
         self.max_length = max_length
         self.min_frequency = min_frequency - 1
@@ -16,9 +22,10 @@ class TextToBagVec(BaseEstimator, TransformerMixin):
 
     def fit(self, X):
         if self.max_length is None:
-            self.max_length = max([len(x.split(' ')) for x in X])
+            self.max_length = max([len(x) for x in X])
         vocab_processor = learn.preprocessing.VocabularyProcessor(self.max_length,
-                                                                       min_frequency=self.min_frequency)
+                                                                       min_frequency=self.min_frequency,
+                                                                  tokenizer_fn=self.tokenizer)
         vocab_processor.fit(X)
         self.vocabulary_ = vocab_processor.vocabulary_
         self.vocab_processor = vocab_processor
