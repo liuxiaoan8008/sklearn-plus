@@ -132,6 +132,7 @@ class EntityRecongnizer(BaseEstimator, ModelMixin):
             self.model.dropout_keep_prob: 1
         }
         predictions = []
+        sequence_len = []
         if self.model_name == 'bilstm-crf' or 'cnn':
             logits, transition_params, sequence_lengths = self.sess.run(
                 [self.model.logits, self.model.transition_param,self.model.sequence_lengths], feed_dict)
@@ -139,9 +140,10 @@ class EntityRecongnizer(BaseEstimator, ModelMixin):
                 logit = logit[:sequence_length]
                 viterbi_sequence, _ = tf.contrib.crf.viterbi_decode(logit, transition_params)
                 predictions.append(viterbi_sequence)
+                sequence_len.append(sequence_length)
         else:
             predictions = self.sess.run(self.model.predictions, feed_dict)
-        return predictions
+        return predictions,sequence_len
 
     def predict_proba(self, X):
         feed_dict = {
