@@ -10,6 +10,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 class TextToBagVec(BaseEstimator, TransformerMixin):
 
+    @staticmethod
     def tokenizer(iterator):
         for value in iterator:
             yield list(value)
@@ -25,7 +26,7 @@ class TextToBagVec(BaseEstimator, TransformerMixin):
             self.max_length = max([len(x) for x in X])
         vocab_processor = learn.preprocessing.VocabularyProcessor(self.max_length,
                                                                        min_frequency=self.min_frequency,
-                                                                  tokenizer_fn=self.tokenizer)
+                                                                  tokenizer_fn=TextToBagVec.tokenizer)
         vocab_processor.fit(X)
         self.vocabulary_ = vocab_processor.vocabulary_
         self.vocab_processor = vocab_processor
