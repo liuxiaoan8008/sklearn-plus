@@ -4,3 +4,4 @@ from .lstm import LSTM
 from .bilstm import BiLSTM
 from .bilstm_crf import BiLSTMCrf
 from .cnn_bilstm_crf import CNNBiLSTMCrf
+from .blstm_att_crf import BiLSTMATTCrf
