@@ -72,7 +72,7 @@ class EntityRecongnizer(BaseEstimator, ModelMixin):
             }
 
             predictions = []
-            if self.model_name == 'bilstm-crf' or 'cnn':
+            if self.model_name == 'bilstm-crf' or self.model_name == 'cnn':
 
                 logits, transition_params,sequence_lengths = self.sess.run(
                     [self.model.logits,self.model.transition_param, self.model.sequence_lengths], feed_dict)
